@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>AI Hub</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--card:#12121a;--card2:#1a1a28;--border:#1e1e2e;--text:#e0e0e0;--muted:#666;--accent:#6c5ce7;--accent2:#00cec9;--green:#00b894;--red:#d63031;--yellow:#fdcb6e;--orange:#e17055;--r:12px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden}
+.app{display:flex;height:100vh}
+.side{width:54px;background:var(--card);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:10px 0;gap:2px;flex-shrink:0}
+.side .logo{font-size:22px;margin-bottom:14px;cursor:pointer}
+.side .nb{width:40px;height:40px;border-radius:10px;border:none;background:transparent;color:var(--muted);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.2s}
+.side .nb:hover,.side .nb.on{background:var(--accent);color:#fff}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.hdr{height:48px;background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:10px;flex-shrink:0}
+.hdr h1{font-size:15px;font-weight:600;flex:1}
+.hdr .badge{background:var(--green);color:#000;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600}
+.ct{flex:1;overflow-y:auto;padding:16px}
+.pg{display:none}.pg.on{display:block}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:10px}
+.card-t{font-size:13px;font-weight:600;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.btn{padding:5px 12px;border-radius:8px;border:none;font-size:11px;font-weight:500;cursor:pointer;transition:.2s}
+.btn-p{background:var(--accent);color:#fff}.btn-p:hover{opacity:.85}
+.btn-s{padding:3px 8px;font-size:10px}
+.btn-g{background:transparent;color:var(--muted);border:1px solid var(--border)}.btn-g:hover{color:var(--text);border-color:var(--muted)}
+.btn-d{background:var(--red);color:#fff}
+.btn-ok{background:var(--green);color:#000}
+.prov{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:12px;transition:.2s}
+.prov:hover{border-color:var(--accent)}
+.prov-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.prov-n{font-size:12px;font-weight:600}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.dot.on{background:var(--green);box-shadow:0 0 6px var(--green)}
+.dot.off{background:var(--red)}
+.dot.uk{background:var(--yellow)}
+.prov-m{font-size:10px;color:var(--muted)}
+.prov-a{display:flex;gap:4px;margin-top:6px}
+
+/* Section headers */
+.sec{font-size:11px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin:16px 0 8px;padding-bottom:4px;border-bottom:1px solid var(--border)}
+.sec:first-child{margin-top:0}
+
+/* Keys */
+.key-row{display:flex;align-items:center;gap:6px;margin-bottom:6px;padding:6px 8px;background:var(--bg);border-radius:8px}
+.key-row label{font-size:11px;width:100px;color:var(--muted);flex-shrink:0}
+.key-row input{flex:1;background:transparent;border:1px solid var(--border);border-radius:6px;padding:4px 8px;color:var(--text);font-size:11px;outline:none;font-family:monospace}
+.key-row input:focus{border-color:var(--accent)}
+.key-row .sts{font-size:10px;width:50px;text-align:center}
+
+/* Chat */
+.chat-c{display:flex;flex-direction:column;height:100%}
+.chat-msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+.msg{max-width:82%;padding:8px 12px;border-radius:10px;font-size:12px;line-height:1.5;white-space:pre-wrap;word-break:break-word}
+.msg.user{background:var(--accent);color:#fff;align-self:flex-end;border-bottom-right-radius:3px}
+.msg.ai{background:var(--card2);border:1px solid var(--border);align-self:flex-start;border-bottom-left-radius:3px}
+.msg.sys{background:transparent;color:var(--muted);font-size:10px;align-self:center}
+.msg code{background:rgba(255,255,255,.1);padding:1px 3px;border-radius:3px;font-family:'Fira Code',monospace;font-size:11px}
+.msg pre{background:#0d0d14;padding:8px;border-radius:6px;overflow-x:auto;margin:6px 0;font-size:11px;font-family:'Fira Code',monospace}
+.chat-in{display:flex;gap:6px;padding:10px 12px;background:var(--card);border-top:1px solid var(--border)}
+.chat-in textarea{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 10px;color:var(--text);font-size:12px;resize:none;font-family:inherit;outline:none;min-height:36px;max-height:100px}
+.chat-in textarea:focus{border-color:var(--accent)}
+.send{width:36px;height:36px;border-radius:8px;border:none;background:var(--accent);color:#fff;font-size:16px;cursor:pointer;flex-shrink:0}
+.send:disabled{opacity:.4}
+.chat-bar{display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--card);border-bottom:1px solid var(--border)}
+.chat-bar select{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:3px 6px;color:var(--text);font-size:11px;outline:none}
+
+/* Code Editor */
+.editor-c{display:flex;flex-direction:column;height:100%}
+.editor-bar{display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--card);border-bottom:1px solid var(--border);flex-wrap:wrap}
+.editor-bar .file-tab{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:3px 8px;font-size:11px;cursor:pointer;display:flex;align-items:center;gap:4px}
+.editor-bar .file-tab.active{border-color:var(--accent);color:var(--accent)}
+.editor-area{flex:1;display:flex;overflow:hidden}
+.editor-sidebar{width:220px;background:var(--card);border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0;padding:8px}
+.editor-main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.editor-code{flex:1;background:var(--bg);border:none;padding:12px;color:var(--text);font-family:'Fira Code',monospace;font-size:12px;resize:none;outline:none;line-height:1.6;tab-size:2}
+.editor-output{height:150px;background:var(--card);border-top:1px solid var(--border);overflow-y:auto;padding:8px;font-family:monospace;font-size:11px;color:var(--muted)}
+.file-tree-item{display:flex;align-items:center;gap:6px;padding:4px 6px;border-radius:4px;cursor:pointer;font-size:11px}
+.file-tree-item:hover{background:rgba(108,92,231,.1)}
+.file-tree-item.dir{color:var(--yellow)}
+.file-tree-item.file{color:var(--text)}
+
+/* Phone */
+.phone-c{text-align:center;padding:20px}
+.phone-qr{background:#fff;padding:16px;border-radius:12px;display:inline-block;margin:16px 0}
+.phone-url{font-size:18px;font-weight:700;color:var(--accent);margin:12px 0;font-family:monospace}
+.phone-steps{text-align:left;max-width:400px;margin:0 auto;font-size:12px;line-height:2;color:var(--muted)}
+.phone-steps b{color:var(--text)}
+
+/* Modal */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:100}
+.modal-bg.on{display:flex}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;width:90%;max-width:460px;max-height:80vh;overflow-y:auto}
+.modal h3{margin-bottom:14px;font-size:15px}
+
+/* Stats */
+.stat{text-align:center;padding:14px}
+.stat-v{font-size:26px;font-weight:700;color:var(--accent)}
+.stat-l{font-size:10px;color:var(--muted);margin-top:2px}
+
+.toast{position:fixed;bottom:16px;right:16px;background:var(--green);color:#000;padding:8px 16px;border-radius:8px;font-size:12px;font-weight:500;z-index:200;animation:su .3s}
+@keyframes su{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
+.spin{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp .6s linear infinite;display:inline-block}
+@keyframes sp{to{transform:rotate(360deg)}}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+@media(max-width:768px){.side{width:46px;padding:6px 0}.side .nb{width:34px;height:34px;font-size:15px}.editor-sidebar{width:160px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<nav class="side">
+<div class="logo" title="AI Hub">🤖</div>
+<button class="nb on" onclick="go('dash')" title="Dashboard">📊</button>
+<button class="nb" onclick="go('chat')" title="AI Chat">💬</button>
+<button class="nb" onclick="go('code')" title="Code Editor">⌨️</button>
+<button class="nb" onclick="go('files')" title="Files">📁</button>
+<button class="nb" onclick="go('keys')" title="API Keys">🔑</button>
+<button class="nb" onclick="go('disc')" title="Discovery">🔍</button>
+<button class="nb" onclick="go('phone')" title="Phone Connect">📱</button>
+</nav>
+<div class="main">
+<div class="hdr"><h1 id="pageTitle">Dashboard</h1><div class="badge" id="topBadge">Loading...</div></div>
+<div class="ct">
+
+<!-- DASHBOARD -->
+<div class="pg on" id="pg-dash">
+<div class="grid" id="statsGrid"></div>
+<div class="card"><div class="card-t"><span>Providers</span><button class="btn btn-p btn-s" onclick="refreshProv()">Refresh</button></div>
+<div class="grid" id="provGrid"></div></div>
+</div>
+
+<!-- CHAT -->
+<div class="pg" id="pg-chat">
+<div class="chat-c">
+<div class="chat-bar">
+<select id="chatModel"><option value="auto">Auto (Best available)</option></select>
+<button class="btn btn-g btn-s" onclick="clearChat()">Clear</button>
+</div>
+<div class="chat-msgs" id="chatMsgs"><div class="msg sys">Select a provider and start chatting.</div></div>
+<div class="chat-in">
+<textarea id="chatIn" placeholder="Type a message..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"></textarea>
+<button class="send" id="sendBtn" onclick="sendChat()">▶</button>
+</div>
+</div>
+</div>
+
+<!-- CODE EDITOR -->
+<div class="pg" id="pg-code">
+<div class="editor-c">
+<div class="editor-bar">
+<button class="btn btn-p btn-s" onclick="aiNewFile()">+ New File</button>
+<button class="btn btn-g btn-s" onclick="aiSave()">Save</button>
+<button class="btn btn-g btn-s" onclick="aiRun()">▶ Run</button>
+<span style="flex:1"></span>
+<select id="codeModel" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:3px 6px;color:var(--text);font-size:11px;outline:none">
+<option value="auto">Auto</option>
+</select>
+</div>
+<div class="editor-area">
+<div class="editor-sidebar" id="codeSidebar"></div>
+<div class="editor-main">
+<textarea class="editor-code" id="codeEditor" placeholder="Start coding or ask AI to create something..."></textarea>
+<div class="editor-output" id="codeOutput">AI Hub Code Editor — Type code or ask AI for help</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- FILES -->
+<div class="pg" id="pg-files">
+<div id="fileBreadcrumb" style="font-size:11px;color:var(--accent);margin-bottom:8px"></div>
+<div id="editorPanel" style="display:none">
+<div class="card" style="margin-bottom:8px">
+<div class="card-t"><span id="editFileName"></span><div style="display:flex;gap:4px">
+<button class="btn btn-ok btn-s" onclick="fileSave()">Save</button>
+<button class="btn btn-g btn-s" onclick="fileClose()">Close</button>
+</div></div>
+<textarea id="fileEditor" style="width:100%;min-height:250px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px;color:var(--text);font-family:monospace;font-size:12px;resize:vertical;outline:none"></textarea>
+</div>
+</div>
+<div id="fileList"></div>
+</div>
+
+<!-- API KEYS -->
+<div class="pg" id="pg-keys">
+<div class="sec">Free Providers (No key needed)</div>
+<div id="freeKeys"></div>
+<div class="sec">Paid / Trial Providers (Add your key)</div>
+<div id="paidKeys"></div>
+<div class="sec">Custom Provider</div>
+<div class="card">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px">
+<input id="cName" placeholder="Name" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:11px;outline:none">
+<input id="cUrl" placeholder="API URL (https://...)" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:11px;outline:none">
+</div>
+<div style="display:flex;gap:6px">
+<input id="cKey" placeholder="API Key (optional)" style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:11px;outline:none">
+<button class="btn btn-p" onclick="addCustom()">Add</button>
+</div>
+</div>
+</div>
+
+<!-- DISCOVERY -->
+<div class="pg" id="pg-disc">
+<div class="card"><div class="card-t"><span>Free AI Sources</span><button class="btn btn-p btn-s" onclick="runDisc()">Scan All</button></div>
+<div id="discList" style="display:flex;flex-direction:column;gap:6px"></div></div>
+</div>
+
+<!-- PHONE -->
+<div class="pg" id="pg-phone">
+<div class="phone-c">
+<div style="font-size:48px;margin-bottom:8px">📱</div>
+<h2 style="margin-bottom:4px">Connect Your Phone</h2>
+<p style="color:var(--muted);font-size:12px;margin-bottom:16px">Open this URL on your phone browser</p>
+<div class="phone-url" id="phoneUrl">Loading...</div>
+<div class="phone-qr" id="phoneQR"></div>
+<div class="phone-steps">
+<b>1.</b> Make sure phone & PC are on same WiFi<br>
+<b>2.</b> Open the URL above on your phone<br>
+<b>3.</b> If blocked, run as admin:<br>
+<code style="background:var(--bg);padding:2px 6px;border-radius:4px;font-size:10px">netsh advfirewall firewall add rule name="AI Hub" dir=in action=allow protocol=tcp localport=8765</code><br>
+<b>4.</b> Full AI Chat + Code Editor + Files on phone!
+</div>
+<div class="card" style="margin-top:16px;text-align:left">
+<div class="card-t"><span>Network Info</span></div>
+<div id="netInfo" style="font-size:11px;color:var(--muted);line-height:1.8"></div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="modal-bg" id="modal"><div class="modal" id="modalInner"></div></div>
+
+<script>
+const API='';
+let providers=[],chatHist=[],curDir='',curFile='',fileTabs=[];
+
+// NAV
+function go(p){
+  document.querySelectorAll('.pg').forEach(e=>e.classList.remove('on'));
+  document.querySelectorAll('.nb').forEach(e=>e.classList.remove('on'));
+  document.getElementById('pg-'+p).classList.add('on');
+  document.querySelectorAll('.nb')[['dash','chat','code','files','keys','disc','phone'].indexOf(p)].classList.add('on');
+  const t={dash:'Dashboard',chat:'AI Chat',code:'Code Editor',files:'File Manager',keys:'API Keys',disc:'Discovery',phone:'Phone Connect'};
+  document.getElementById('pageTitle').textContent=t[p];
+  if(p==='dash')refreshProv();
+  if(p==='files')loadFiles();
+  if(p==='disc')runDisc();
+  if(p==='phone')loadPhone();
+  if(p==='keys')loadKeys();
+  if(p==='code')loadCodeSidebar();
+}
+
+function toast(m){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),3000)}
+
+// PROVIDERS — incremental load
+async function refreshProv(){
+  document.getElementById('topBadge').textContent='Loading...';
+  try{
+    // Load cached first (instant)
+    const r=await fetch(API+'/api/providers');
+    providers=await r.json();
+    renderProv();updateModels();
+    const on=providers.filter(p=>p.status==='online').length;
+    document.getElementById('topBadge').textContent=on+'/'+providers.length+' online';
+  }catch{document.getElementById('topBadge').textContent='Error';}
+}
+
+// Fast check single provider
+async function quickCheck(id){
+  try{const r=await fetch(API+'/api/providers/'+id+'/check');return await r.json();}catch{return null;}
+}
+
+function renderProv(){
+  const g=document.getElementById('provGrid');
+  g.innerHTML=providers.map(p=>`<div class="prov"><div class="prov-h"><span class="prov-n">${p.name}</span><span class="dot ${p.status==='online'?'on':p.status==='offline'?'off':'uk'}"></span></div><div class="prov-m">${p.models?.length?p.models.length+' models':''} ${p.latency?'· '+p.latency+'ms':''} ${p.free?'· Free':''}</div><div class="prov-a"><button class="btn btn-g btn-s" onclick="toggleP('${p.id}')">${p.enabled?'Disable':'Enable'}</button><button class="btn btn-g btn-s" onclick="testP('${p.id}')">Test</button></div></div>`).join('');
+  const on=providers.filter(p=>p.status==='online').length;
+  const tm=providers.reduce((s,p)=>s+(p.models?.length||0),0);
+  document.getElementById('statsGrid').innerHTML=`
+    <div class="card stat"><div class="stat-v">${on}</div><div class="stat-l">Online</div></div>
+    <div class="card stat"><div class="stat-v">${providers.length}</div><div class="stat-l">Total</div></div>
+    <div class="card stat"><div class="stat-v">${tm}</div><div class="stat-l">Models</div></div>
+    <div class="card stat"><div class="stat-v">${providers.filter(p=>p.free).length}</div><div class="stat-l">Free</div></div>`;
+}
+
+async function toggleP(id){await fetch(API+'/api/providers/'+id+'/toggle',{method:'POST'});refreshProv()}
+async function testP(id){toast('Testing '+id+'...');const r=await fetch(API+'/api/providers/'+id+'/check');const d=await r.json();toast(d.name+': '+d.status+(d.latency?' '+d.latency+'ms':''))}
+
+function updateModels(){
+  const s=document.getElementById('chatModel');const cs=document.getElementById('codeModel');
+  [s,cs].forEach(sel=>{if(!sel)return;const v=sel.value;sel.innerHTML='<option value="auto">Auto</option>';
+  providers.filter(p=>p.enabled&&p.status==='online'&&p.models?.length).forEach(p=>p.models.forEach(m=>{
+    const o=document.createElement('option');o.value=m;o.textContent=m+' ('+p.name+')';sel.appendChild(o);});sel.value=v;});}
+
+// CHAT
+async function sendChat(){
+  const inp=document.getElementById('chatIn');const msg=inp.value.trim();if(!msg)return;
+  inp.value='';inp.style.height='auto';addMsg('user',msg);
+  document.getElementById('sendBtn').disabled=true;
+  chatHist.push({role:'user',content:msg});
+  try{const r=await fetch(API+'/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:document.getElementById('chatModel').value,messages:chatHist,max_tokens:4096})});
+  const d=await r.json();if(d.choices?.[0]?.message?.content){addMsg('ai',d.choices[0].message.content);chatHist.push({role:'assistant',content:d.choices[0].message.content});const pr=r.headers.get('X-Provider');if(pr)toast('Via: '+pr);}
+  else addMsg('sys','Error: '+(d.error?.message||d.error||'No response'));}
+  catch(e){addMsg('sys','Error: '+e.message);}
+  document.getElementById('sendBtn').disabled=false;
+}
+
+function addMsg(role,content){
+  const d=document.getElementById('chatMsgs');const m=document.createElement('div');m.className='msg '+role;
+  if(role==='ai')m.innerHTML=content.replace(/```(\w*)\n([\s\S]*?)```/g,'<pre><code>$2</code></g').replace(/`([^`]+)`/g,'<code>$1</code>');
+  else m.textContent=content;d.appendChild(m);d.scrollTop=d.scrollHeight;
+}
+function clearChat(){chatHist=[];document.getElementById('chatMsgs').innerHTML='<div class="msg sys">Chat cleared.</div>';}
+document.getElementById('chatIn')?.addEventListener('input',function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px';});
+
+// CODE EDITOR
+async function loadCodeSidebar(){
+  try{const r=await fetch(API+'/api/files?dir='+encodeURIComponent(getWorkspace()));const d=await r.json();
+  document.getElementById('codeSidebar').innerHTML=d.files.map(f=>
+    `<div class="file-tree-item ${f.isDirectory?'dir':'file'}" onclick="${f.isDirectory?`loadCodeDir('${f.path.replace(/\\/g,'/').replace(/'/g,"\\'")}')`:`loadCodeFile('${f.path.replace(/\\/g,'/').replace(/'/g,"\\'")}')`}">${f.isDirectory?'📁':'📄'} ${f.name}</div>`
+  ).join('');}catch{}
+}
+
+function getWorkspace(){return document.getElementById('codeEditor').dataset.workspace||'';}
+
+async function loadCodeDir(dir){
+  try{const r=await fetch(API+'/api/files?dir='+encodeURIComponent(dir));const d=await r.json();
+  document.getElementById('codeSidebar').innerHTML=`<div class="file-tree-item dir" onclick="loadCodeSidebar()">📁 ..</div>`+
+  d.files.map(f=>`<div class="file-tree-item ${f.isDirectory?'dir':'file'}" onclick="${f.isDirectory?`loadCodeDir('${f.path.replace(/\\/g,'/').replace(/'/g,"\\'")}')`:`loadCodeFile('${f.path.replace(/\\/g,'/').replace(/'/g,"\\'")}')`}">${f.isDirectory?'📁':'📄'} ${f.name}</div>`).join('');}catch{}
+}
+
+async function loadCodeFile(path){
+  try{const r=await fetch(API+'/api/files/read?path='+encodeURIComponent(path));const d=await r.json();
+  document.getElementById('codeEditor').value=d.content;document.getElementById('codeEditor').dataset.path=path;
+  document.getElementById('codeOutput').textContent='Loaded: '+path;}catch(e){document.getElementById('codeOutput').textContent='Error: '+e.message;}
+}
+
+function aiNewFile(){document.getElementById('codeEditor').value='';document.getElementById('codeEditor').dataset.path='';document.getElementById('codeOutput').textContent='New file — write code or ask AI';}
+
+async function aiSave(){
+  const path=document.getElementById('codeEditor').dataset.path;
+  const content=document.getElementById('codeEditor').value;
+  if(!path){const name=prompt('File name (e.g. script.py):');if(!name)return;const r=await fetch(API+'/api/files/write',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({path:getWorkspace()+'/'+name,content})});if(r.ok){toast('Created: '+name);document.getElementById('codeEditor').dataset.path=getWorkspace()+'/'+name;loadCodeSidebar();}return;}
+  const r=await fetch(API+'/api/files/write',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({path,content})});
+  if(r.ok)toast('Saved!');loadCodeSidebar();
+}
+
+function aiRun(){
+  const path=document.getElementById('codeEditor').dataset.path;
+  const ext=path?.split('.').pop();
+  const out=document.getElementById('codeOutput');
+  if(!path){out.textContent='Save the file first';return;}
+  out.textContent='Running '+path+'...\n';
+  if(ext==='py'){out.textContent+='[Python execution requires terminal access — use opencode or system terminal]';}
+  else if(ext==='js'){out.textContent+='[Node.js execution requires terminal access]';}
+  else{out.textContent+='[Cannot auto-run .'+ext+' files — save and run manually]';}
+}
+
+// FILES
+async function loadFiles(dir){
+  const r=await fetch(API+'/api/files?dir='+(dir?encodeURIComponent(dir):''));const d=await r.json();
+  curDir=d.dir;
+  const parts=curDir.replace(/\\/g,'/').split('/').filter(Boolean);
+  let html='';let acc='';
+  parts.forEach((p,i)=>{acc+='/'+p;html+=`<span style="cursor:pointer" onclick="loadFiles('${acc.replace(/'/g,"\\'")}')">${p}</span>`;if(i<parts.length-1)html+=' / ';});
+  document.getElementById('fileBreadcrumb').innerHTML=html;
+  document.getElementById('fileList').innerHTML=d.files.map(f=>{
+    const icon=f.isDirectory?'📁':getFileIcon(f.name);
+    const click=f.isDirectory?`loadFiles('${f.path.replace(/\\/g,'/').replace(/'/g,"\\'")}')`: `openFile('${f.path.replace(/\\/g,'/').replace(/'/g,"\\'")}')`;
+    return `<div style="display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:6px;cursor:pointer;font-size:12px" onclick="${click}" onmouseover="this.style.background='rgba(108,92,231,.1)'" onmouseout="this.style.background=''"><span>${icon}</span><span style="flex:1">${f.name}</span><span style="font-size:10px;color:var(--muted)">${f.isDirectory?'':fmtSize(f.size)}</span></div>`;
+  }).join('')||'<div style="color:var(--muted);font-size:12px;text-align:center;padding:20px">Empty</div>';
+}
+
+function getFileIcon(n){const e=n.split('.').pop().toLowerCase();return{py:'🐍',js:'📜',json:'📋',md:'📝',html:'🌐',css:'🎨',ts:'📜',txt:'📄',yaml:'⚙️',yml:'⚙️',sh:'⚡',bat:'⚡',jpg:'🖼️',png:'🖼️',zip:'📦'}[e]||'📄';}
+function fmtSize(b){if(b<1024)return b+'B';if(b<1048576)return(b/1024).toFixed(1)+'K';return(b/1048576).toFixed(1)+'M';}
+
+async function openFile(path){
+  curFile=path;const r=await fetch(API+'/api/files/read?path='+encodeURIComponent(path));const d=await r.json();
+  document.getElementById('editorPanel').style.display='block';
+  document.getElementById('editFileName').textContent=path.split(/[/\\]/).pop();
+  document.getElementById('fileEditor').value=d.content;
+}
+
+function fileClose(){document.getElementById('editorPanel').style.display='none';}
+async function fileSave(){if(!curFile)return;await fetch(API+'/api/files/write',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({path:curFile,content:document.getElementById('fileEditor').value})});toast('Saved!');}
+
+// API KEYS
+async function loadKeys(){
+  const r=await fetch(API+'/api/providers');providers=await r.json();
+  const kr=await fetch(API+'/api/keys');const keys=await kr.json();
+  
+  const free=providers.filter(p=>p.free&&!p.key);
+  const paid=providers.filter(p=>!p.free||p.key);
+  
+  document.getElementById('freeKeys').innerHTML=free.map(p=>`<div class="key-row"><label>${p.name}</label><span style="font-size:10px;color:var(--green)">No key needed</span><span class="sts"><span class="dot ${p.status==='online'?'on':'uk'}"></span></span></div>`).join('')||'<div style="color:var(--muted);font-size:11px;padding:8px">No free providers</div>';
+  
+  document.getElementById('paidKeys').innerHTML=paid.map(p=>{
+    const masked=keys[p.id]||'';
+    return `<div class="key-row"><label>${p.name}</label><input id="key-${p.id}" placeholder="${masked||'Add key...'}" type="password" onfocus="this.type='text'" onblur="this.type='password'"><button class="btn btn-p btn-s" onclick="saveKey('${p.id}')">Save</button><span class="sts"><span class="dot ${p.status==='online'?'on':'uk'}"></span></span></div>`;
+  }).join('');
+}
+
+async function saveKey(id){const v=document.getElementById('key-'+id)?.value;if(!v)return;await fetch(API+'/api/keys',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({providerId:id,key:v})});toast('Key saved: '+id);loadKeys();}
+
+async function addCustom(){
+  const n=document.getElementById('cName').value.trim(),u=document.getElementById('cUrl').value.trim(),k=document.getElementById('cKey').value.trim();
+  if(!n||!u){toast('Name & URL required');return;}
+  const id=n.toLowerCase().replace(/[^a-z0-9]/g,'-');
+  await fetch(API+'/api/providers/custom',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,name:n,url:u,key:k})});
+  document.getElementById('cName').value='';document.getElementById('cUrl').value='';document.getElementById('cKey').value='';
+  toast('Provider added!');refreshProv();
+}
+
+// DISCOVERY
+async function runDisc(){
+  document.getElementById('discList').innerHTML='<div style="text-align:center;padding:16px"><span class="spin"></span> Scanning...</div>';
+  const r=await fetch(API+'/api/discovery/check',{method:'POST'});const d=await r.json();
+  document.getElementById('discList').innerHTML=d.sources.map(s=>`<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--card);border:1px solid var(--border);border-radius:8px"><div class="dot ${s.status==='online'?'on':s.status==='offline'?'off':'uk'}"></div><div style="flex:1"><div style="font-size:12px;font-weight:500">${s.name}</div><div style="font-size:10px;color:var(--muted)">${s.status} ${s.models?'· '+s.models+' models':''} ${s.type?'· '+s.type:''}</div></div><span style="font-size:10px;color:var(--muted)">${s.lastCheck?new Date(s.lastCheck).toLocaleTimeString():''}</span></div>`).join('');
+}
+
+// PHONE
+async function loadPhone(){
+  const r=await fetch(API+'/api/network');const d=await r.json();
+  const ip=d.ips[0]?.address||'localhost';
+  const url='http://'+ip+':'+d.port;
+  document.getElementById('phoneUrl').textContent=url;
+  
+  // QR Code (simple SVG)
+  const qr=`<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160"><rect width="160" height="160" fill="white"/><text x="80" y="85" text-anchor="middle" font-size="10" fill="#333">Scan to open AI Hub</text><text x="80" y="100" text-anchor="middle" font-size="8" fill="#666">${url}</text></svg>`;
+  document.getElementById('phoneQR').innerHTML=qr;
+  
+  document.getElementById('netInfo').innerHTML=d.ips.map(i=>`<div>${i.name}: <b>${i.address}</b></div>`).join('')+`<div style="margin-top:6px;color:var(--accent)">Phone URL: <b>${url}</b></div>`;
+}
+
+// INIT — page loads instantly, providers refresh in background
+document.getElementById('topBadge').textContent='Starting...';
+setTimeout(refreshProv, 200);
+</script>
+</body>
+</html>

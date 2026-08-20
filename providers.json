@@ -1,0 +1,1144 @@
+{
+  "providers": [
+    {
+      "id": "mistral",
+      "name": "Mistral AI",
+      "type": "openai",
+      "url": "https://api.mistral.ai/v1/chat/completions",
+      "models_url": "https://api.mistral.ai/v1/models",
+      "key": "YOUR_MISTRAL_KEY_HERE",
+      "enabled": true,
+      "free": true,
+      "priority": 1,
+      "note": "50+ models, 1B tokens/month free, EU hosting",
+      "knownModels": [
+        "mistral-small-latest",
+        "mistral-medium-latest",
+        "mistral-large-latest",
+        "codestral-latest",
+        "devstral-medium-latest",
+        "pixtral-large-latest"
+      ]
+    },
+    {
+      "id": "groq",
+      "name": "Groq",
+      "type": "openai",
+      "url": "https://api.groq.com/openai/v1/chat/completions",
+      "models_url": "https://api.groq.com/openai/v1/models",
+      "key": "YOUR_GROQ_KEY_HERE",
+      "enabled": true,
+      "free": true,
+      "priority": 2,
+      "note": "Ultra-fast 315+ TPS, 14,400 req/day free",
+      "knownModels": [
+        "groq/compound",
+        "groq/compound-mini",
+        "openai/gpt-oss-120b",
+        "openai/gpt-oss-20b",
+        "qwen/qwen3.6-27b",
+        "allam-2-7b",
+        "meta-llama/llama-prompt-guard-2-22m"
+      ]
+    },
+    {
+      "id": "pollinations",
+      "name": "Pollinations",
+      "type": "openai",
+      "url": "https://text.pollinations.ai/v1/chat/completions",
+      "models_url": "https://text.pollinations.ai/openai/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 3,
+      "note": "No key needed, unmetered"
+    },
+    {
+      "id": "google-gemini",
+      "name": "Google Gemini (AI Studio)",
+      "type": "openai",
+      "url": "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions",
+      "models_url": "https://generativelanguage.googleapis.com/v1beta/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 4,
+      "note": "1,500 req/day, 1M context, no card",
+      "knownModels": [
+        "gemini-2.5-flash",
+        "gemini-2.0-flash",
+        "gemini-2.5-pro",
+        "gemma-3-27b-it"
+      ]
+    },
+    {
+      "id": "cerebras",
+      "name": "Cerebras",
+      "type": "openai",
+      "url": "https://api.cerebras.ai/v1/chat/completions",
+      "models_url": "https://api.cerebras.ai/v1/models",
+      "key": "YOUR_CEREBRAS_KEY_HERE",
+      "enabled": true,
+      "free": true,
+      "priority": 5,
+      "note": "2,600+ TPS, 1M tokens/day free",
+      "knownModels": [
+        "llama-3.3-70b",
+        "qwen-2.5-32b",
+        "gpt-oss-120b"
+      ]
+    },
+    {
+      "id": "nvidia",
+      "name": "NVIDIA NIM",
+      "type": "openai",
+      "url": "https://integrate.api.nvidia.com/v1/chat/completions",
+      "models_url": "https://integrate.api.nvidia.com/v1/models",
+      "key": "YOUR_NVIDIA_KEY_HERE",
+      "enabled": true,
+      "free": true,
+      "priority": 6,
+      "note": "100+ models, no daily cap",
+      "knownModels": [
+        "deepseek-ai/deepseek-r1",
+        "meta/llama-3.3-70b-instruct",
+        "nvidia/llama-3.1-nemotron-70b-instruct"
+      ]
+    },
+    {
+      "id": "openrouter",
+      "name": "OpenRouter",
+      "type": "openai",
+      "url": "https://openrouter.ai/api/v1/chat/completions",
+      "models_url": "https://openrouter.ai/api/v1/models",
+      "key": "YOUR_OPENROUTER_KEY_HERE",
+      "enabled": true,
+      "free": true,
+      "priority": 7,
+      "note": "35+ free models, 1 key for everything",
+      "knownModels": [
+        "meta-llama/llama-3.3-70b-instruct:free",
+        "deepseek/deepseek-r1:free",
+        "openai/gpt-oss-120b:free",
+        "qwen/qwen3-coder:free",
+        "google/gemma-3-12b-it:free"
+      ]
+    },
+    {
+      "id": "sambanova",
+      "name": "SambaNova",
+      "type": "openai",
+      "url": "https://api.sambanova.ai/v1/chat/completions",
+      "models_url": "https://api.sambanova.ai/v1/models",
+      "key": "YOUR_SAMBANOVA_KEY_HERE",
+      "enabled": true,
+      "free": true,
+      "priority": 8,
+      "note": "Fast RDU inference, persistent free tier",
+      "knownModels": [
+        "Meta-Llama-3.3-70B-Instruct",
+        "DeepSeek-R1",
+        "QwQ-32B"
+      ]
+    },
+    {
+      "id": "deepseek",
+      "name": "DeepSeek",
+      "type": "openai",
+      "url": "https://api.deepseek.com/v1/chat/completions",
+      "models_url": "https://api.deepseek.com/v1/models",
+      "key": "YOUR_DEEPSEEK_KEY_HERE",
+      "enabled": false,
+      "free": false,
+      "priority": 9,
+      "note": "5M free tokens on signup, cheapest reasoning",
+      "knownModels": [
+        "deepseek-chat",
+        "deepseek-reasoner"
+      ]
+    },
+    {
+      "id": "cloudflare",
+      "name": "Cloudflare Workers AI",
+      "type": "openai",
+      "url": "https://api.cloudflare.com/client/v4/accounts/{account_id}/ai/v1/chat/completions",
+      "models_url": "",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 10,
+      "note": "10K neurons/day, 80+ models, edge AI",
+      "knownModels": [
+        "@cf/meta/llama-3.3-70b-instruct-fp16",
+        "@cf/qwen/qwen1.5-14b-chat-awq",
+        "@cf/mistral/mistral-7b-instruct-v0.2-q5_1m"
+      ]
+    },
+    {
+      "id": "huggingface",
+      "name": "Hugging Face Inference",
+      "type": "openai",
+      "url": "https://router.huggingface.co/v1/chat/completions",
+      "models_url": "https://huggingface.co/api/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 11,
+      "note": "Monthly credit, 500K+ models",
+      "knownModels": [
+        "meta-llama/Llama-3.3-70B-Instruct",
+        "Qwen/Qwen2.5-72B-Instruct",
+        "mistralai/Mistral-7B-Instruct-v0.3"
+      ]
+    },
+    {
+      "id": "cohere",
+      "name": "Cohere",
+      "type": "openai",
+      "url": "https://api.cohere.com/v2/chat",
+      "models_url": "https://api.cohere.com/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 12,
+      "note": "Trial key: 20 RPM, 1K calls/month, RAG+rerank",
+      "knownModels": [
+        "command-a",
+        "command-r-plus",
+        "command-r",
+        "command-r7b"
+      ]
+    },
+    {
+      "id": "fireworks",
+      "name": "Fireworks AI",
+      "type": "openai",
+      "url": "https://api.fireworks.ai/inference/v1/chat/completions",
+      "models_url": "https://api.fireworks.ai/inference/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 13,
+      "note": "10 RPM free, fast open-source inference",
+      "knownModels": [
+        "accounts/fireworks/models/llama-v3p3-70b-instruct",
+        "accounts/fireworks/models/deepseek-r1",
+        "accounts/fireworks/models/qwen3-235b-a22b"
+      ]
+    },
+    {
+      "id": "deepinfra",
+      "name": "DeepInfra",
+      "type": "openai",
+      "url": "https://api.deepinfra.com/v1/openai/chat/completions",
+      "models_url": "https://api.deepinfra.com/v1/openai/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 14,
+      "note": "~$10/month recurring free credits",
+      "knownModels": [
+        "meta-llama/Meta-Llama-3.3-70B-Instruct-Turbo",
+        "deepseek-ai/DeepSeek-R1",
+        "Qwen/Qwen3-30B-A3B"
+      ]
+    },
+    {
+      "id": "siliconflow",
+      "name": "SiliconFlow",
+      "type": "openai",
+      "url": "https://api.siliconflow.cn/v1/chat/completions",
+      "models_url": "https://api.siliconflow.cn/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 15,
+      "note": "Rising platform, free open-source models",
+      "knownModels": [
+        "Qwen/Qwen2.5-7B-Instruct",
+        "THUDM/glm-4-9b-chat",
+        "meta-llama/Meta-Llama-3.1-8B-Instruct"
+      ]
+    },
+    {
+      "id": "zhipu",
+      "name": "Z AI (Zhipu/GLM)",
+      "type": "openai",
+      "url": "https://open.bigmodel.cn/api/paas/v4/chat/completions",
+      "models_url": "https://open.bigmodel.cn/api/paas/v4/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 16,
+      "note": "Free GLM-4 Flash, ~1K req/day",
+      "knownModels": [
+        "glm-4-flash",
+        "glm-4-air",
+        "glm-4-long"
+      ]
+    },
+    {
+      "id": "xiai",
+      "name": "xAI (Grok)",
+      "type": "openai",
+      "url": "https://api.x.ai/v1/chat/completions",
+      "models_url": "https://api.x.ai/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 17,
+      "note": "$25 free credits on signup",
+      "knownModels": [
+        "grok-3",
+        "grok-3-mini",
+        "grok-2"
+      ]
+    },
+    {
+      "id": "ai21",
+      "name": "AI21 Labs",
+      "type": "openai",
+      "url": "https://api.ai21.com/studio/v1/chat/completions",
+      "models_url": "https://api.ai21.com/studio/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 18,
+      "note": "$10 trial credits",
+      "knownModels": [
+        "jamba-1.5-large",
+        "jamba-1.5-mini",
+        "jamba-1.5-flash"
+      ]
+    },
+    {
+      "id": "nebius",
+      "name": "Nebius AI",
+      "type": "openai",
+      "url": "https://api.studio.nebius.ai/v1/chat/completions",
+      "models_url": "https://api.studio.nebius.ai/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 19,
+      "note": "Free tier, fast inference",
+      "knownModels": [
+        "meta-llama/Meta-Llama-3.3-70B-Instruct",
+        "deepseek-ai/DeepSeek-V3",
+        "Qwen/Qwen3-235B-A22B"
+      ]
+    },
+    {
+      "id": "bazaarlink",
+      "name": "BazaarLink",
+      "type": "openai",
+      "url": "https://bazaarlink.ai/api/v1/chat/completions",
+      "models_url": "https://bazaarlink.ai/api/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 22,
+      "note": "auto:free routing, ongoing zero-cost",
+      "knownModels": [
+        "auto:free"
+      ]
+    },
+    {
+      "id": "putershim",
+      "name": "Puter.js",
+      "type": "puter",
+      "url": "http://localhost:8812",
+      "models_url": "",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 32
+    },
+    {
+      "id": "ollama",
+      "name": "Ollama (Local)",
+      "type": "openai",
+      "url": "http://localhost:11434/v1/chat/completions",
+      "models_url": "http://localhost:11434/api/tags",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 33,
+      "note": "Unlimited local inference"
+    },
+    {
+      "id": "freellmapi",
+      "name": "FreeLLMAPI (Local)",
+      "type": "openai",
+      "url": "http://localhost:3001/v1/chat/completions",
+      "models_url": "http://localhost:3001/v1/models",
+      "key": "YOUR_FREELLMAPI_KEY_HERE",
+      "enabled": true,
+      "free": true,
+      "priority": 34,
+      "note": "191 models, local"
+    },
+    {
+      "id": "cliproxyapi",
+      "name": "CLIProxyAPI (Local)",
+      "type": "openai",
+      "url": "http://localhost:8317/v1/chat/completions",
+      "models_url": "http://localhost:8317/v1/models",
+      "key": "YOUR_CLIPROXY_KEY_HERE",
+      "enabled": true,
+      "free": true,
+      "priority": 35,
+      "note": "Local proxy"
+    },
+    {
+      "id": "freedeepseek",
+      "name": "FreeDeepseekAPI (Local)",
+      "type": "openai",
+      "url": "http://localhost:9655/v1/chat/completions",
+      "models_url": "http://localhost:9655/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 36,
+      "note": "11 models, local"
+    },
+    {
+      "id": "omniroute",
+      "name": "OmniRoute (Local)",
+      "type": "openai",
+      "url": "http://localhost:20128/v1/chat/completions",
+      "models_url": "http://localhost:20128/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 37,
+      "note": "271 providers, local"
+    },
+    {
+      "id": "lmstudio",
+      "name": "LM Studio (Local)",
+      "type": "openai",
+      "url": "http://localhost:1234/v1/chat/completions",
+      "models_url": "http://localhost:1234/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 40,
+      "note": "Unlimited local inference"
+    },
+    {
+      "id": "vllm",
+      "name": "vLLM (Local)",
+      "type": "openai",
+      "url": "http://localhost:8000/v1/chat/completions",
+      "models_url": "http://localhost:8000/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 41,
+      "note": "Local GPU inference server"
+    },
+    {
+      "id": "textgen",
+      "name": "Text Generation WebUI (Local)",
+      "type": "openai",
+      "url": "http://localhost:5000/v1/chat/completions",
+      "models_url": "http://localhost:5000/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 42,
+      "note": "Local, supports all formats"
+    },
+    {
+      "id": "litellm",
+      "name": "LiteLLM Proxy (Local)",
+      "type": "openai",
+      "url": "http://localhost:4000/v1/chat/completions",
+      "models_url": "http://localhost:4000/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 43,
+      "note": "Unified proxy for 100+ providers"
+    },
+    {
+      "id": "localai",
+      "name": "LocalAI (Local)",
+      "type": "openai",
+      "url": "http://localhost:8080/v1/chat/completions",
+      "models_url": "http://localhost:8080/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 44,
+      "note": "Drop-in OpenAI replacement, local"
+    },
+    {
+      "id": "kobold",
+      "name": "KoboldCPP (Local)",
+      "type": "openai",
+      "url": "http://localhost:5001/v1/chat/completions",
+      "models_url": "http://localhost:5001/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 45,
+      "note": "Local, CPU/GPU, llama.cpp based"
+    },
+    {
+      "id": "alibaba",
+      "name": "Alibaba Cloud Model Studio",
+      "type": "openai",
+      "url": "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
+      "models_url": "https://dashscope.aliyuncs.com/compatible-mode/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 56,
+      "note": "Qwen models, free tier",
+      "knownModels": [
+        "qwen-plus",
+        "qwen-turbo",
+        "qwen-max",
+        "qwen-long"
+      ]
+    },
+    {
+      "id": "moonshot",
+      "name": "Moonshot AI (Kimi)",
+      "type": "openai",
+      "url": "https://api.moonshot.cn/v1/chat/completions",
+      "models_url": "https://api.moonshot.cn/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 57,
+      "note": "Free tier, Kimi models",
+      "knownModels": [
+        "moonshot-v1-8k",
+        "moonshot-v1-32k",
+        "moonshot-v1-128k"
+      ]
+    },
+    {
+      "id": "minimax",
+      "name": "MiniMax",
+      "type": "openai",
+      "url": "https://api.minimax.chat/v1/text/chatcompletion_v2",
+      "models_url": "https://api.minimax.chat/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 59,
+      "note": "Free credits, Multimodal",
+      "knownModels": [
+        "MiniMax-Text-01",
+        "abab6.5s-chat"
+      ]
+    },
+    {
+      "id": "yi",
+      "name": "Yi (01.AI)",
+      "type": "openai",
+      "url": "https://api.lingyiwanwu.com/v1/chat/completions",
+      "models_url": "https://api.lingyiwanwu.com/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 60,
+      "note": "Free tier",
+      "knownModels": [
+        "yi-lightning",
+        "yi-large",
+        "yi-medium"
+      ]
+    },
+    {
+      "id": "together",
+      "name": "Together AI",
+      "type": "openai",
+      "url": "https://api.together.xyz/v1/chat/completions",
+      "models_url": "https://api.together.xyz/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 66,
+      "note": "Trial credits, 200+ open-source models",
+      "knownModels": [
+        "meta-llama/Meta-Llama-3.3-70B-Instruct-Turbo",
+        "deepseek-ai/DeepSeek-R1",
+        "Qwen/Qwen3-235B-A22B-Turbo"
+      ]
+    },
+    {
+      "id": "openaicompat",
+      "name": "OpenAI (Free Trial)",
+      "type": "openai",
+      "url": "https://api.openai.com/v1/chat/completions",
+      "models_url": "https://api.openai.com/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 70,
+      "note": "$5 trial, GPT-4o-mini",
+      "knownModels": [
+        "gpt-4o-mini",
+        "gpt-3.5-turbo"
+      ]
+    },
+    {
+      "id": "llm7",
+      "name": "LLM7.io",
+      "type": "openai",
+      "url": "https://api.llm7.io/v1/chat/completions",
+      "models_url": "https://api.llm7.io/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 50,
+      "knownModels": [
+        "gemini-3.1-flash-lite",
+        "llama-3.3-70b-instruct"
+      ]
+    },
+    {
+      "id": "novita",
+      "name": "Novita AI",
+      "type": "openai",
+      "url": "https://api.novita.ai/v3/openai/chat/completions",
+      "models_url": "https://api.novita.ai/v3/openai/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 51,
+      "knownModels": [
+        "meta-llama/llama-3.3-70b-instruct",
+        "deepseek/deepseek-r1"
+      ]
+    },
+    {
+      "id": "aiml",
+      "name": "AIML API",
+      "type": "openai",
+      "url": "https://api.aimlapi.com/v1/chat/completions",
+      "models_url": "https://api.aimlapi.com/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 52,
+      "knownModels": [
+        "openai/gpt-4o-mini",
+        "meta-llama/llama-3.3-70b-instruct"
+      ]
+    },
+    {
+      "id": "venice",
+      "name": "Venice AI",
+      "type": "openai",
+      "url": "https://api.venice.ai/api/v1/chat/completions",
+      "models_url": "https://api.venice.ai/api/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 53,
+      "knownModels": [
+        "llama-3.3-70b",
+        "deepseek-r1"
+      ]
+    },
+    {
+      "id": "nous",
+      "name": "Nous Research",
+      "type": "openai",
+      "url": "https://inference-api.nousresearch.com/v1/chat/completions",
+      "models_url": "https://inference-api.nousresearch.com/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 54,
+      "knownModels": [
+        "Hermes-3-Llama-3.1-405B",
+        "Hermes-3-Llama-3.1-70B"
+      ]
+    },
+    {
+      "id": "replicate",
+      "name": "Replicate",
+      "type": "openai",
+      "url": "https://api.replicate.com/v1/chat/completions",
+      "models_url": "https://api.replicate.com/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 55,
+      "knownModels": [
+        "meta/meta-llama-3-70b-instruct",
+        "mistralai/mixtral-8x7b-instruct-v0.1"
+      ]
+    },
+    {
+      "id": "anyscale",
+      "name": "Anyscale",
+      "type": "openai",
+      "url": "https://api.endpoints.anyscale.com/v1/chat/completions",
+      "models_url": "https://api.endpoints.anyscale.com/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 56,
+      "knownModels": [
+        "meta-llama/Meta-Llama-3.3-70B-Instruct",
+        "mistralai/Mixtral-8x7B-Instruct-v0.1"
+      ]
+    },
+    {
+      "id": "perplexity",
+      "name": "Perplexity",
+      "type": "openai",
+      "url": "https://api.perplexity.ai/chat/completions",
+      "models_url": "",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 57,
+      "knownModels": [
+        "llama-3.1-sonar-small-128k-online",
+        "llama-3.1-sonar-large-128k-online"
+      ]
+    },
+    {
+      "id": "friendli",
+      "name": "Friendli AI",
+      "type": "openai",
+      "url": "https://inference.friendli.ai/v1/chat/completions",
+      "models_url": "https://inference.friendli.ai/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 58,
+      "knownModels": [
+        "meta-llama-3.3-70b-instruct",
+        "meta-llama-3.1-8b-instruct"
+      ]
+    },
+    {
+      "id": "chutes",
+      "name": "Chutes.ai",
+      "type": "openai",
+      "url": "https://api.chutes.ai/v1/chat/completions",
+      "models_url": "https://api.chutes.ai/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 59,
+      "knownModels": [
+        "meta-llama/llama-3.3-70b-instruct",
+        "deepseek-ai/DeepSeek-R1"
+      ]
+    },
+    {
+      "id": "upstage",
+      "name": "Upstage",
+      "type": "openai",
+      "url": "https://api.upstage.ai/v1/solar/chat/completions",
+      "models_url": "https://api.upstage.ai/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 60,
+      "knownModels": [
+        "solar-1-mini-chat",
+        "solar-1-large-chat"
+      ]
+    },
+    {
+      "id": "baichuan",
+      "name": "Baichuan AI",
+      "type": "openai",
+      "url": "https://api.baichuan-ai.com/v1/chat/completions",
+      "models_url": "https://api.baichuan-ai.com/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 61,
+      "knownModels": [
+        "Baichuan4",
+        "Baichuan3-Turbo"
+      ]
+    },
+    {
+      "id": "rinna",
+      "name": "Rinna Co.",
+      "type": "openai",
+      "url": "https://api.rinna.co.jp/v1/chat/completions",
+      "models_url": "https://api.rinna.co.jp/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 62,
+      "knownModels": [
+        "rinna/japanese-gpt-neox-3.6b-instruction-sft",
+        "rinna/japanese-gpt-neox-3.6b"
+      ]
+    },
+    {
+      "id": "maritaca",
+      "name": "Maritaca AI",
+      "type": "openai",
+      "url": "https://api.maritaca.ai/v1/chat/completions",
+      "models_url": "https://api.maritaca.ai/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 63,
+      "knownModels": [
+        "MariTalk",
+        "MariTalk-2-7b"
+      ]
+    },
+    {
+      "id": "openchat",
+      "name": "OpenChat",
+      "type": "openai",
+      "url": "https://api.openchat.ai/v1/chat/completions",
+      "models_url": "https://api.openchat.ai/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 64,
+      "knownModels": [
+        "openchat-3.5",
+        "openchat-3.5-0106"
+      ]
+    },
+    {
+      "id": "nlpcloud",
+      "name": "NLP Cloud",
+      "type": "openai",
+      "url": "https://api.nlpcloud.io/v1/chat/completions",
+      "models_url": "https://api.nlpcloud.io/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 65,
+      "knownModels": [
+        "dolphin-llama3-70b",
+        "llama3-70b"
+      ]
+    },
+    {
+      "id": "convai",
+      "name": "Convai",
+      "type": "openai",
+      "url": "https://api.convai.com/v1/chat/completions",
+      "models_url": "",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 66,
+      "knownModels": [
+        "llama-3-70b"
+      ]
+    },
+    {
+      "id": "morphllm",
+      "name": "MorphLLM",
+      "type": "openai",
+      "url": "https://api.morphllm.com/v1/chat/completions",
+      "models_url": "https://api.morphllm.com/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 67,
+      "knownModels": [
+        "morph-large-v0.1"
+      ]
+    },
+    {
+      "id": "brainfrog",
+      "name": "BrainFrog AI",
+      "type": "openai",
+      "url": "https://api.brainfrog.ai/v1/chat/completions",
+      "models_url": "https://api.brainfrog.ai/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 68,
+      "knownModels": [
+        "llama-3.3-70b-instruct"
+      ]
+    },
+    {
+      "id": "kilocode",
+      "name": "Kilo Code",
+      "type": "openai",
+      "url": "https://api.kilocode.ai/v1/chat/completions",
+      "models_url": "https://api.kilocode.ai/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 69,
+      "knownModels": [
+        "kilo-coder-7b",
+        "deepseek-coder-v2-lite"
+      ]
+    },
+    {
+      "id": "nscale",
+      "name": "Nscale",
+      "type": "openai",
+      "url": "https://api.nscale.com/v1/chat/completions",
+      "models_url": "https://api.nscale.com/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 70,
+      "knownModels": [
+        "nvidia/llama-3.1-nemotron-70b-instruct",
+        "meta-llama/Meta-Llama-3.1-8B-Instruct"
+      ]
+    },
+    {
+      "id": "lepton",
+      "name": "Lepton AI",
+      "type": "openai",
+      "url": "https://api.lepton.ai/v1/chat/completions",
+      "models_url": "https://api.lepton.ai/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 71,
+      "knownModels": [
+        "llama-3.1-8b-instruct",
+        "mixtral-8x7b-instruct"
+      ]
+    },
+    {
+      "id": "tokenrouter",
+      "name": "TokenRouter",
+      "type": "openai",
+      "url": "https://api.tokenrouter.ai/v1/chat/completions",
+      "models_url": "https://api.tokenrouter.ai/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 72,
+      "knownModels": [
+        "deepseek-v4-flash",
+        "llama-3.3-70b-instruct"
+      ]
+    },
+    {
+      "id": "openmodel",
+      "name": "OpenModel.ai",
+      "type": "openai",
+      "url": "https://api.openmodel.ai/v1/chat/completions",
+      "models_url": "https://api.openmodel.ai/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 73,
+      "knownModels": [
+        "deepseek-v4-flash",
+        "claude-opus-4.x"
+      ]
+    },
+    {
+      "id": "bazaarlink2",
+      "name": "BazaarLink (Auto)",
+      "type": "openai",
+      "url": "https://bazaarlink.ai/api/v1/chat/completions",
+      "models_url": "https://bazaarlink.ai/api/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 74,
+      "knownModels": [
+        "auto:free"
+      ]
+    },
+    {
+      "id": "openzen",
+      "name": "OpenCode Zen",
+      "type": "openai",
+      "url": "https://api.openzen.dev/v1/chat/completions",
+      "models_url": "https://api.openzen.dev/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 75,
+      "knownModels": [
+        "deepseek-v4-flash-free",
+        "mimo-v2.5-free"
+      ]
+    },
+    {
+      "id": "glhf",
+      "name": "Glhf.chat",
+      "type": "openai",
+      "url": "https://glhf.chat/api/v1/chat/completions",
+      "models_url": "https://glhf.chat/api/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 76,
+      "knownModels": [
+        "hf://meta-llama/Llama-3.3-70B-Instruct",
+        "hf://Qwen/Qwen2.5-72B-Instruct"
+      ]
+    },
+    {
+      "id": "predibase",
+      "name": "Predibase",
+      "type": "openai",
+      "url": "https://predibase.com/api/v1/chat/completions",
+      "models_url": "https://predibase.com/api/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 77,
+      "knownModels": [
+        "mistral-7b",
+        "llama-3-8b-instruct"
+      ]
+    },
+    {
+      "id": "bento",
+      "name": "BentoML",
+      "type": "openai",
+      "url": "https://api.bentoml.com/v1/chat/completions",
+      "models_url": "https://api.bentoml.com/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 78,
+      "knownModels": [
+        "llama-3.1-8b-instruct",
+        "mixtral-8x7b-instruct"
+      ]
+    },
+    {
+      "id": "glhf2",
+      "name": "Glhf (Alternate)",
+      "type": "openai",
+      "url": "https://glhf.chat/api/v1/chat/completions",
+      "models_url": "https://glhf.chat/api/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 79,
+      "knownModels": [
+        "hf://google/gemma-2-9b-it",
+        "hf://mistralai/Mistral-7B-Instruct-v0.3"
+      ]
+    },
+    {
+      "id": "glitch",
+      "name": "Glitch AI",
+      "type": "openai",
+      "url": "https://api.glitch.ai/v1/chat/completions",
+      "models_url": "https://api.glitch.ai/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 80,
+      "knownModels": [
+        "llama-3.3-70b-instruct",
+        "deepseek-r1"
+      ]
+    },
+    {
+      "id": "groqfree",
+      "name": "Groq (Free Tier)",
+      "type": "openai",
+      "url": "https://api.groq.com/openai/v1/chat/completions",
+      "models_url": "",
+      "key": "YOUR_GROQ_KEY_HERE",
+      "enabled": true,
+      "free": true,
+      "priority": 81,
+      "knownModels": [
+        "meta-llama/llama-4-scout-17b-16e-instruct",
+        "meta-llama/llama-4-maverick-17b-128e-instruct"
+      ]
+    },
+    {
+      "id": "nvidianim2",
+      "name": "NVIDIA NIM (Alt)",
+      "type": "openai",
+      "url": "https://integrate.api.nvidia.com/v1/chat/completions",
+      "models_url": "",
+      "key": "YOUR_NVIDIA_KEY_HERE",
+      "enabled": true,
+      "free": true,
+      "priority": 82,
+      "knownModels": [
+        "qwen/qwq-32b",
+        "meta/llama-3.1-8b-instruct",
+        "nvidia/llama-3.1-nemotron-mini-4b-instruct"
+      ]
+    },
+    {
+      "id": "sambanova3",
+      "name": "SambaNova (Alt)",
+      "type": "openai",
+      "url": "https://api.sambanova.ai/v1/chat/completions",
+      "models_url": "",
+      "key": "YOUR_SAMBANOVA_KEY_HERE",
+      "enabled": true,
+      "free": true,
+      "priority": 83,
+      "knownModels": [
+        "Llama-4-Scout-17B-16E-Instruct",
+        "QwQ-32B",
+        "DeepSeek-V3-0324"
+      ]
+    },
+    {
+      "id": "cerebras2",
+      "name": "Cerebras (Alt)",
+      "type": "openai",
+      "url": "https://api.cerebras.ai/v1/chat/completions",
+      "models_url": "",
+      "key": "YOUR_CEREBRAS_KEY_HERE",
+      "enabled": true,
+      "free": true,
+      "priority": 84,
+      "knownModels": [
+        "llama-3.3-70b",
+        "qwen-2.5-32b"
+      ]
+    },
+    {
+      "id": "anyapi2",
+      "name": "AnyAPI (Alt)",
+      "type": "openai",
+      "url": "https://api.anyapi.ai/v1/chat/completions",
+      "models_url": "https://api.anyapi.ai/v1/models",
+      "key": "",
+      "enabled": true,
+      "free": true,
+      "priority": 85,
+      "knownModels": [
+        "llama-3.3-70b-instruct",
+        "mistral-7b-instruct"
+      ]
+    },
+    {
+      "id": "deepseek2",
+      "name": "DeepSeek (Alt)",
+      "type": "openai",
+      "url": "https://api.deepseek.com/v1/chat/completions",
+      "models_url": "",
+      "key": "YOUR_DEEPSEEK_KEY_HERE",
+      "enabled": true,
+      "free": true,
+      "priority": 86,
+      "knownModels": [
+        "deepseek-chat",
+        "deepseek-reasoner"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "sources": [
+    {
+      "name": "TokenFaucet",
+      "url": "https://freetokenfaucet.com/v1/models",
+      "type": "free",
+      "key": "",
+      "status": "error",
+      "models": 0,
+      "lastCheck": "2026-08-20T14:11:00.509Z"
+    },
+    {
+      "name": "FreeLLMAPI",
+      "url": "http://localhost:3001/v1/models",
+      "type": "local",
+      "key": "",
+      "status": "offline",
+      "models": 0,
+      "error": "fetch failed",
+      "lastCheck": "2026-08-20T14:11:00.511Z"
+    },
+    {
+      "name": "CLIProxyAPI",
+      "url": "http://localhost:8317/v1/models",
+      "type": "local",
+      "key": "",
+      "status": "error",
+      "models": 0,
+      "lastCheck": "2026-08-20T14:11:00.513Z"
+    },
+    {
+      "name": "FreeDeepseekAPI",
+      "url": "http://localhost:9655/v1/models",
+      "type": "local",
+      "status": "offline",
+      "models": 0,
+      "error": "fetch failed",
+      "lastCheck": "2026-08-20T14:11:00.514Z"
+    },
+    {
+      "name": "OmniRoute",
+      "url": "http://localhost:20128/v1/models",
+      "type": "local",
+      "status": "offline",
+      "models": 0,
+      "error": "fetch failed",
+      "lastCheck": "2026-08-20T14:11:00.515Z"
+    },
+    {
+      "name": "Ollama",
+      "url": "http://localhost:11434/api/tags",
+      "type": "local",
+      "status": "online",
+      "models": 0,
+      "lastCheck": "2026-08-20T14:11:00.517Z"
+    },
+    {
+      "name": "Groq",
+      "url": "https://api.groq.com/openai/v1/models",
+      "type": "free",
+      "key": "",
+      "status": "error",
+      "models": 0,
+      "lastCheck": "2026-08-20T14:11:00.788Z"
+    },
+    {
+      "name": "Mistral",
+      "url": "https://api.mistral.ai/v1/models",
+      "type": "free",
+      "key": "",
+      "status": "error",
+      "models": 0,
+      "lastCheck": "2026-08-20T14:11:01.110Z"
+    },
+    {
+      "name": "Pollinations",
+      "url": "https://text.pollinations.ai/v1/models",
+      "type": "free",
+      "status": "offline",
+      "models": 0,
+      "error": "Unexpected token 'H', \"Hey there!\"... is not valid JSON",
+      "lastCheck": "2026-08-20T14:11:01.520Z"
+    },
+    {
+      "name": "OpenRouter",
+      "url": "https://openrouter.ai/api/v1/models",
+      "type": "free",
+      "key": "",
+      "status": "online",
+      "models": 416,
+      "lastCheck": "2026-08-20T14:11:01.674Z"
+    }
+  ],
+  "lastCheck": "2026-08-20T14:11:01.674Z"
+}

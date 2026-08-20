@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Hub</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--card:#12121a;--border:#1e1e2e;--text:#e0e0e0;--muted:#666;--accent:#6c5ce7;--green:#00b894;--red:#d63031;--yellow:#fdcb6e;--blue:#0984e3;--r:10px}
+body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);height:100dvh;overflow:hidden}
+.app{display:flex;height:100dvh}
+nav{width:52px;background:var(--card);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:8px 0;gap:2px;flex-shrink:0}
+nav .logo{font-size:20px;margin-bottom:12px}
+nav button{width:38px;height:38px;border-radius:8px;border:none;background:0;color:var(--muted);font-size:16px;cursor:pointer}
+nav button:hover,nav button.active{background:var(--accent);color:#fff}
+.wrap{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.top{height:44px;background:var(--card);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 14px;gap:8px}
+.top h1{font-size:14px;flex:1}
+.top .badge{background:var(--green);color:#000;padding:1px 7px;border-radius:10px;font-size:9px;font-weight:700}
+.body{flex:1;overflow-y:auto;padding:14px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:8px}
+.row{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
+.btn{padding:4px 10px;border-radius:6px;border:none;font-size:10px;font-weight:600;cursor:pointer}
+.btn-p{background:var(--accent);color:#fff}
+.btn-g{background:0;color:var(--muted);border:1px solid var(--border)}
+.btn-ok{background:var(--green);color:#000}
+.btn-d{background:var(--red);color:#fff}
+.btn-bl{background:var(--blue);color:#fff}
+.p{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:10px}
+.p .hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.p .nm{font-size:11px;font-weight:600}
+.p .st{width:7px;height:7px;border-radius:50%;display:inline-block}
+.st.on{background:var(--green);box-shadow:0 0 5px var(--green)}
+.st.off{background:var(--red)}
+.st.uk{background:var(--yellow)}
+.p .mt{font-size:9px;color:var(--muted)}
+.sec{font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.8px;margin:14px 0 6px;padding-bottom:3px;border-bottom:1px solid var(--border)}
+.kr{display:flex;align-items:center;gap:4px;margin-bottom:4px;padding:5px 6px;background:var(--bg);border-radius:6px}
+.kr label{font-size:10px;width:90px;color:var(--muted);flex-shrink:0}
+.kr input{flex:1;background:0;border:1px solid var(--border);border-radius:4px;padding:3px 6px;color:var(--text);font-size:10px;outline:none;font-family:monospace}
+.kr input:focus{border-color:var(--accent)}
+.chat{display:flex;flex-direction:column;height:calc(100dvh - 88px)}
+.msgs{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:6px}
+.msg{max-width:80%;padding:7px 10px;border-radius:8px;font-size:11px;line-height:1.45;white-space:pre-wrap;word-break:break-word}
+.msg.user{background:var(--accent);color:#fff;align-self:flex-end}
+.msg.ai{background:var(--card);border:1px solid var(--border);align-self:flex-start}
+.msg.sys{background:0;color:var(--muted);font-size:9px;align-self:center}
+.msg code{background:rgba(255,255,255,.1);padding:0 3px;border-radius:2px;font-family:monospace;font-size:10px}
+.msg pre{background:#0d0d14;padding:6px;border-radius:4px;overflow-x:auto;margin:4px 0;font-size:10px;font-family:monospace}
+.inp{display:flex;gap:4px;padding:8px 10px;background:var(--card);border-top:1px solid var(--border)}
+.inp textarea{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:11px;resize:none;outline:none;min-height:32px;font-family:inherit}
+.inp textarea:focus{border-color:var(--accent)}
+.send{width:32px;height:32px;border-radius:6px;border:none;background:var(--accent);color:#fff;font-size:14px;cursor:pointer;flex-shrink:0}
+.bar{display:flex;align-items:center;gap:4px;padding:5px 10px;background:var(--card);border-bottom:1px solid var(--border)}
+.bar select{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:2px 5px;color:var(--text);font-size:10px;outline:none}
+.stat{text-align:center;padding:12px}
+.stat .v{font-size:22px;font-weight:700;color:var(--accent)}
+.stat .l{font-size:9px;color:var(--muted);margin-top:2px}
+.toast{position:fixed;bottom:12px;right:12px;background:var(--green);color:#000;padding:6px 12px;border-radius:6px;font-size:11px;font-weight:600;z-index:200;animation:fadeIn .2s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.spin{width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp .5s linear infinite;display:inline-block}
+@keyframes sp{to{transform:rotate(360deg)}}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+@media(max-width:768px){nav{width:44px}nav button{width:34px;height:34px;font-size:14px}.row{grid-template-columns:1fr}}
+.gal-item{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:12px;display:flex;flex-direction:column;gap:6px}
+.gal-item .gal-hd{display:flex;justify-content:space-between;align-items:flex-start}
+.gal-item .gal-nm{font-size:12px;font-weight:700}
+.gal-item .gal-stars{font-size:9px;color:var(--yellow)}
+.gal-item .gal-desc{font-size:10px;color:var(--muted);line-height:1.4}
+.gal-item .gal-note{font-size:9px;color:var(--blue);line-height:1.3;padding:5px 7px;background:rgba(9,132,227,.08);border-radius:5px}
+.gal-item .gal-foot{display:flex;gap:4px;align-items:center}
+.gal-tag{font-size:8px;padding:1px 5px;border-radius:3px;font-weight:600;text-transform:uppercase}
+.gal-tag.proxy{background:rgba(0,184,148,.15);color:var(--green)}
+.gal-tag.gateway{background:rgba(108,92,231,.15);color:var(--accent)}
+.gal-tag.webui{background:rgba(253,203,110,.15);color:var(--yellow)}
+.gal-tag.public{background:rgba(9,132,227,.15);color:var(--blue)}
+.gal-tag.local{background:rgba(0,184,148,.2);color:var(--green)}
+.gal-tag.installed{background:rgba(0,184,148,.3);color:var(--green)}
+.gal-tag.install{background:rgba(253,203,110,.15);color:var(--yellow)}
+.gal-tag.online{background:rgba(0,184,148,.15);color:var(--green)}
+.filter-bar{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap}
+.filter-bar .fbtn{padding:3px 8px;border-radius:5px;border:1px solid var(--border);background:0;color:var(--muted);font-size:9px;cursor:pointer;font-weight:600}
+.filter-bar .fbtn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.search-box{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:6px 8px;color:var(--text);font-size:11px;outline:none;margin-bottom:10px}
+.search-box:focus{border-color:var(--accent)}
+.phone{text-align:center;padding:16px}
+.phone .url{font-size:16px;font-weight:700;color:var(--accent);margin:10px 0;font-family:monospace}
+.phone .steps{text-align:left;max-width:360px;margin:0 auto;font-size:11px;line-height:1.8;color:var(--muted)}
+.phone .steps b{color:var(--text)}
+.model-row{display:flex;align-items:center;gap:6px;padding:5px 8px;background:var(--bg);border-radius:6px;margin-bottom:3px;font-size:10px}
+.model-row .mn{flex:1;font-family:monospace;font-size:10px}
+.model-row .ml{color:var(--muted);font-size:9px}
+.model-row.working{border-left:3px solid var(--green)}
+.model-row.broken{border-left:3px solid var(--red)}
+.model-row.pending{border-left:3px solid var(--yellow)}
+.term{background:#0d0d14;border:1px solid var(--border);border-radius:6px;padding:8px;font-family:'Fira Code',monospace;font-size:10px;color:var(--green);min-height:200px;max-height:400px;overflow-y:auto;white-space:pre-wrap;word-break:break-all}
+.term-input{display:flex;gap:4px;margin-top:6px}
+.term-input input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:5px 8px;color:var(--text);font-family:monospace;font-size:11px;outline:none}
+.term-input input:focus{border-color:var(--accent)}
+.phone-info{display:grid;grid-template-columns:1fr 1fr;gap:6px;text-align:left}
+.phone-info .pi-item{background:var(--bg);border-radius:6px;padding:8px}
+.phone-info .pi-label{font-size:9px;color:var(--muted);text-transform:uppercase}
+.phone-info .pi-value{font-size:11px;font-weight:600;margin-top:2px}
+</style>
+</head>
+<body>
+<div class="app">
+<nav>
+<div class="logo">🤖</div>
+<button class="active" onclick="go('dash')" title="Dashboard">📊</button>
+<button onclick="go('chat')" title="Chat">💬</button>
+<button onclick="go('scan')" title="Model Scanner">🔬</button>
+<button onclick="go('galaxy')" title="Galaxy">🌌</button>
+<button onclick="go('keys')" title="Keys">🔑</button>
+<button onclick="go('phone')" title="Phone Control">📱</button>
+<button onclick="go('files')" title="Files">📁</button>
+<button onclick="go('code')" title="Code">⌨️</button>
+</nav>
+<div class="wrap">
+<div class="top"><h1 id="title">Dashboard</h1><div class="badge" id="badge">...</div></div>
+<div class="body" id="body"></div>
+</div>
+</div>
+<script>
+var P=[],H=[],GALAXY=[],GAL_FILTER='all',SCAN_DATA={};
+
+function go(p){
+  var pages=['dash','chat','scan','galaxy','keys','phone','files','code'];
+  document.querySelectorAll('nav button').forEach(function(b,i){b.className=pages[i]===p?'active':'';});
+  var t={dash:'Dashboard',chat:'AI Chat',scan:'Model Scanner',galaxy:'Galaxy',keys:'API Keys',phone:'Phone Control',files:'Files',code:'Code Editor'};
+  document.getElementById('title').textContent=t[p]||p;
+  var m={dash:pDash,chat:pChat,scan:pScan,galaxy:pGalaxy,keys:pKeys,phone:pPhone,files:pFiles,code:pCode};
+  if(m[p])m[p]();
+}
+function $(id){return document.getElementById(id)}
+function toast(m){var t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove()},2500)}
+
+// ===== DASHBOARD =====
+function pDash(){
+  $('body').innerHTML='<div class="row" id="stats"></div><div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><b style="font-size:12px">Providers</b><button class="btn btn-p" onclick="loadProv()">Refresh</button></div><div class="row" id="pgrid"></div></div>';
+  loadProv();
+}
+async function loadProv(){
+  $('badge').textContent='Scanning...';
+  try{
+    var r=await fetch('/api/providers');P=await r.json();
+    var on=0,h='';
+    P.forEach(function(p){
+      if(p.status==='online')on++;
+      h+='<div class="p"><div class="hd"><span class="nm">'+p.name+'</span><span class="st '+(p.status==='online'?'on':p.status==='offline'?'off':'uk')+'"></span></div><div class="mt">'+(p.models?p.models.length+' models':'')+(p.latency?' · '+p.latency+'ms':'')+(p.free?' · Free':'')+'</div><div style="margin-top:4px"><button class="btn btn-g" onclick="toggleP(\''+p.id+'\')">'+(p.enabled?'On':'Off')+'</button> '+(p.enabled?'<button class="btn btn-g" onclick="scanOne(\''+p.id+'\')">Scan</button>':'')+'</div></div>';
+    });
+    $('pgrid').innerHTML=h||'<div style="color:var(--muted);font-size:10px">No providers</div>';
+    $('stats').innerHTML='<div class="card stat"><div class="v">'+on+'</div><div class="l">Online</div></div><div class="card stat"><div class="v">'+P.length+'</div><div class="l">Total</div></div><div class="card stat"><div class="v">'+P.filter(function(p){return p.free}).length+'</div><div class="l">Free</div></div>';
+    $('badge').textContent=on+'/'+P.length+' online';
+  }catch(e){$('badge').textContent='Error';}
+}
+async function toggleP(id){await fetch('/api/providers/'+id+'/toggle',{method:'POST'});loadProv();}
+
+// ===== CHAT =====
+function pChat(){
+  var opts='<option value="auto">Auto (try all)</option>';
+  P.forEach(function(p){
+    if(p.enabled&&(p.status==='online'||p.status==='unknown')&&p.models&&p.models.length){
+      var grp='── '+p.name+' ──';
+      opts+='<option value="" disabled>'+grp+'</option>';
+      p.models.forEach(function(m){opts+='<option value="'+m+'">  '+m+'</option>';});
+    }
+  });
+  $('body').innerHTML='<div class="chat"><div class="bar"><select id="cmod">'+opts+'</select><button class="btn btn-g" onclick="H=[];$(\'cmsgs\').innerHTML=\'<div class=msg.sys>Chat cleared</div>\'">Clear</button></div><div class="msgs" id="cmsgs"><div class="msg sys">Select a model or use Auto. Auto tries all providers until one works.</div></div><div class="inp"><textarea id="cin" placeholder="Type..." rows="1"></textarea><button class="send" id="sbtn" onclick="sendMsg()">▶</button></div></div>';
+  $('cin').onkeydown=function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}};
+}
+async function sendMsg(){
+  var inp=$('cin'),msg=inp.value.trim();if(!msg)return;
+  inp.value='';addM('user',msg);H.push({role:'user',content:msg});
+  $('sbtn').disabled=true;
+  try{
+    var r=await fetch('/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:$('cmod').value,messages:H,max_tokens:4096})});
+    var d=await r.json();
+    if(d.choices&&d.choices[0]&&d.choices[0].message){
+      addM('ai',d.choices[0].message.content);H.push({role:'assistant',content:d.choices[0].message.content});
+      var pr=r.headers.get('X-Provider'),md=r.headers.get('X-Model');
+      if(pr)toast('Via: '+pr+(md?' · '+md:''));
+    }else addM('sys','Error: '+(d.error||'No response'));
+  }catch(e){addM('sys','Error: '+e.message);}
+  $('sbtn').disabled=false;
+}
+function addM(role,txt){
+  var d=$('cmsgs'),m=document.createElement('div');m.className='msg '+role;
+  if(role==='ai')m.innerHTML=txt.replace(/```(\w*)\n([\s\S]*?)```/g,'<pre><code>$2</code></pre>').replace(/`([^`]+)`/g,'<code>$1</code>');
+  else m.textContent=txt;d.appendChild(m);d.scrollTop=d.scrollHeight;
+}
+
+// ===== MODEL SCANNER =====
+function pScan(){
+  $('body').innerHTML='<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><b style="font-size:12px">Model Scanner</b><div><button class="btn btn-p" onclick="runScan()">Scan All</button> <button class="btn btn-g" onclick="pScan()">Refresh</button></div></div><div id="scanSummary" style="margin-bottom:8px"></div><div id="scanResults"></div></div>';
+  loadScanData();
+}
+async function loadScanData(){
+  try{var r=await fetch('/api/scan');SCAN_DATA=await r.json();renderScan();}catch(e){$('scanResults').innerHTML='<div style="color:var(--muted);font-size:10px">No scan data yet. Click Scan All.</div>';}
+}
+function renderScan(){
+  if(!SCAN_DATA.results){$('scanResults').innerHTML='<div style="color:var(--muted);font-size:10px">No scan data. Click Scan All.</div>';return;}
+  var totalW=0,totalB=0,totalM=0;
+  var h='';
+  Object.keys(SCAN_DATA.results).forEach(function(pid){
+    var r=SCAN_DATA.results[pid];
+    if(!r.models||!r.models.length)return;
+    var w=r.models.filter(function(m){return m.status==='working'}).length;
+    var b=r.models.filter(function(m){return m.status==='broken'}).length;
+    totalW+=w;totalB+=b;totalM+=r.models.length;
+    h+='<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><b style="font-size:11px">'+r.provider+'</b><span style="font-size:9px;color:var(--green)">'+w+' working</span> <span style="font-size:9px;color:var(--red)">'+b+' broken</span></div>';
+    r.models.sort(function(a,b){return a.status==='working'?-1:b.status==='working'?1:0;});
+    r.models.forEach(function(m){
+      h+='<div class="model-row '+m.status+'"><span class="st '+(m.status==='working'?'on':'off')+'"></span><span class="mn">'+m.model+'</span><span class="ml">'+(m.latency?m.latency+'ms':'')+'</span></div>';
+    });
+    h+='</div>';
+  });
+  $('scanSummary').innerHTML='<div class="row"><div class="card stat"><div class="v" style="color:var(--green)">'+totalW+'</div><div class="l">Working</div></div><div class="card stat"><div class="v" style="color:var(--red)">'+totalB+'</div><div class="l">Broken</div></div><div class="card stat"><div class="v">'+totalM+'</div><div class="l">Total Scanned</div></div></div>';
+  if(SCAN_DATA.lastScan)h+='<div style="font-size:9px;color:var(--muted);text-align:center;margin-top:8px">Last scan: '+new Date(SCAN_DATA.lastScan).toLocaleString()+'</div>';
+  $('scanResults').innerHTML=h||'<div style="color:var(--muted);font-size:10px">No models to scan.</div>';
+}
+async function runScan(){
+  $('scanResults').innerHTML='<div style="text-align:center;padding:20px"><span class="spin"></span><div style="font-size:10px;color:var(--muted);margin-top:6px">Scanning models... This may take a minute.</div></div>';
+  $('scanSummary').innerHTML='';
+  try{
+    var r=await fetch('/api/scan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({})});
+    SCAN_DATA=await r.json();renderScan();toast('Scan complete!');
+  }catch(e){$('scanResults').innerHTML='<div style="color:var(--red);font-size:10px">Scan failed: '+e.message+'</div>';}
+}
+async function scanOne(pid){
+  $('badge').textContent='Scanning '+pid+'...';
+  try{
+    var r=await fetch('/api/scan',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({providerId:pid})});
+    SCAN_DATA=await r.json();toast('Scan done for '+pid);loadProv();
+  }catch(e){toast('Scan failed');}
+}
+
+// ===== GALAXY =====
+async function pGalaxy(){
+  $('body').innerHTML='<div style="margin-bottom:10px"><input class="search-box" id="gsearch" placeholder="Search AI repos..." oninput="filterGalaxy()"></div><div class="filter-bar" id="gfilters"></div><div class="row" id="ggrid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr))"></div>';
+  $('gfilters').innerHTML='<button class="fbtn active" onclick="galFilter(\'all\',this)">All</button><button class="fbtn" onclick="galFilter(\'proxy\',this)">Proxies</button><button class="fbtn" onclick="galFilter(\'gateway\',this)">Gateways</button><button class="fbtn" onclick="galFilter(\'webui\',this)">Web UIs</button><button class="fbtn" onclick="galFilter(\'public\',this)">Public</button><button class="fbtn" onclick="galFilter(\'installed\',this)">Installed</button>';
+  try{var r=await fetch('/api/galaxy');GALAXY=await r.json();renderGalaxy();}catch(e){$('ggrid').innerHTML='<div style="color:var(--red)">Error</div>';}
+}
+function galFilter(f,el){GAL_FILTER=f;document.querySelectorAll('.fbtn').forEach(function(b){b.className='fbtn';});if(el)el.className='fbtn active';renderGalaxy();}
+function filterGalaxy(){renderGalaxy();}
+function renderGalaxy(){
+  var q=($('gsearch')?$('gsearch').value:'').toLowerCase();
+  var items=GALAXY.filter(function(g){
+    if(GAL_FILTER==='installed'&&!g.installed)return false;
+    if(GAL_FILTER!=='all'&&GAL_FILTER!=='installed'&&g.type!==GAL_FILTER)return false;
+    if(q&&g.name.toLowerCase().indexOf(q)===-1&&g.desc.toLowerCase().indexOf(q)===-1)return false;
+    return true;
+  });
+  var h='';items.forEach(function(g){
+    var s=g.stars>1000?(g.stars/1000).toFixed(0)+'K⭐':'';
+    h+='<div class="gal-item"><div class="gal-hd"><div><div class="gal-nm">'+g.name+'</div>'+(s?'<div class="gal-stars">'+s+'</div>':'')+'</div><span class="gal-tag '+g.type+'">'+g.type+'</span></div><div class="gal-desc">'+g.desc+'</div><div class="gal-note">'+g.note+'</div><div class="gal-foot"><span class="gal-tag '+(g.installed?'installed':g.status)+'">'+(g.installed?'Loaded':g.status==='online'?'Online':'Install')+'</span>';
+    if(!g.installed)h+='<button class="btn btn-bl" onclick="loadGal(\''+g.id+'\')">Load</button>';
+    h+='</div></div>';
+  });
+  $('ggrid').innerHTML=h||'<div style="color:var(--muted);font-size:10px;text-align:center;padding:16px;grid-column:1/-1">No matches</div>';
+}
+async function loadGal(id){
+  try{await fetch('/api/galaxy/load',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})});toast('Loaded!');var r=await fetch('/api/galaxy');GALAXY=await r.json();renderGalaxy();loadProv();}catch(e){toast('Error');}
+}
+
+// ===== KEYS =====
+async function pKeys(){
+  if(!P.length){try{var r=await fetch('/api/providers');P=await r.json();}catch{}}
+  var kr=await fetch('/api/keys');var keys=await kr.json();
+  var h='<div class="sec">Active Providers</div>';
+  P.forEach(function(p){
+    if(!p.enabled)return;
+    var masked=keys[p.id]||'';
+    if(p.free&&!masked){h+='<div class="kr"><label>'+p.name+'</label><span style="font-size:9px;color:var(--green)">Free</span></div>';}
+    else{h+='<div class="kr"><label>'+p.name+'</label><input id="k-'+p.id+'" placeholder="'+(masked||'Paste key...')+'" type="password" onfocus="this.type=\'text\'" onblur="this.type=\'password\'"><button class="btn btn-p" onclick="saveK(\''+p.id+'\')">Save</button></div>';}
+  });
+  h+='<div class="sec">Custom Provider</div><div class="card"><div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:6px"><input id="cn" placeholder="Name" style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:5px;color:var(--text);font-size:10px;outline:none"><input id="cu" placeholder="URL" style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:5px;color:var(--text);font-size:10px;outline:none"></div><div style="display:flex;gap:4px"><input id="ck" placeholder="Key (optional)" style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:5px;color:var(--text);font-size:10px;outline:none"><button class="btn btn-p" onclick="addC()">Add</button></div></div>';
+  $('body').innerHTML=h;
+}
+async function saveK(id){var v=$('k-'+id).value;if(!v)return;await fetch('/api/keys',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({providerId:id,key:v})});toast('Saved: '+id);pKeys();}
+async function addC(){var n=$('cn').value,u=$('cu').value,k=$('ck').value;if(!n||!u){toast('Need name+url');return;}await fetch('/api/providers/custom',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:n.toLowerCase().replace(/[^a-z0-9]/g,'-'),name:n,url:u,key:k})});$('cn').value='';$('cu').value='';$('ck').value='';toast('Added!');loadProv();}
+
+// ===== PHONE CONTROL =====
+function pPhone(){
+  $('body').innerHTML='<div class="phone"><div style="font-size:40px">📱</div><h2 style="margin:6px 0 2px">Phone Control</h2><p style="color:var(--muted);font-size:11px">Connect and control your phone from here</p></div><div class="card"><div class="sec">Connect</div><div style="display:grid;grid-template-columns:1fr 80px;gap:4px;margin-bottom:6px"><input id="pIP" placeholder="Phone IP (e.g. 192.168.1.5)" style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:5px;color:var(--text);font-size:10px;outline:none"><select id="pMethod" style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:2px;color:var(--text);font-size:10px"><option value="adb">ADB</option><option value="ssh">SSH</option></select></div><button class="btn btn-p" onclick="phoneConnect()">Connect</button> <span id="pStatus" style="font-size:9px;color:var(--muted);margin-left:6px"></span></div><div id="phonePanel"></div>';
+  fetch('/api/phone/status').then(function(r){return r.json()}).then(function(d){
+    if(d.connected)showPhonePanel(d);
+  });
+}
+async function phoneConnect(){
+  var ip=$('pIP').value.trim(),method=$('pMethod').value;
+  if(!ip){toast('Enter phone IP');return;}
+  $('pStatus').textContent='Connecting...';
+  try{
+    var r=await fetch('/api/phone/connect',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ip:ip,method:method})});
+    var d=await r.json();
+    if(d.ok){$('pStatus').innerHTML='<span style="color:var(--green)">Connected!</span>';showPhonePanel(d);toast('Phone connected!');}
+    else{$('pStatus').innerHTML='<span style="color:var(--red)">'+d.error+'</span>';}
+  }catch(e){$('pStatus').innerHTML='<span style="color:var(--red)">Error</span>';}
+}
+function showPhonePanel(conn){
+  var h='<div class="card"><div class="sec">Phone Info</div><div class="phone-info" id="phoneInfo"><div style="color:var(--muted);font-size:10px"><span class="spin"></span> Loading...</div></div></div><div class="card"><div class="sec">Terminal</div><div class="term" id="pterm">Connected via '+conn.method+' to '+conn.ip+'\n</div><div class="term-input"><input id="pcmd" placeholder="Enter command..." onkeydown="if(event.key===\'Enter\')phoneCmd()"><button class="btn btn-p" onclick="phoneCmd()">Run</button></div></div><div class="card"><div class="sec">Quick Actions</div><div style="display:flex;gap:4px;flex-wrap:wrap"><button class="btn btn-g" onclick="phoneQuick(\'ls /sdcard\')">Files</button><button class="btn btn-g" onclick="phoneQuick(\'dumpsys battery\')">Battery</button><button class="btn btn-g" onclick="phoneQuick(\'dumpsys wifi | grep SSID\')">WiFi</button><button class="btn btn-g" onclick="phoneQuick(\'df /sdcard\')">Storage</button><button class="btn btn-g" onclick="phoneQuick(\'ps -A | head -20\')">Processes</button><button class="btn btn-g" onclick="phoneQuick(\'getprop ro.product.model\')">Model</button><button class="btn btn-g" onclick="phoneQuick(\' screencap -p /sdcard/screen.png && echo Screen saved\')">Screenshot</button><button class="btn btn-g" onclick="phoneQuick(\'input text \"Hello from PC!\'\\\'\')">Type Text</button></div></div>';
+  $('phonePanel').innerHTML=h;
+  fetch('/api/phone/info').then(function(r){return r.json()}).then(function(d){
+    if(d.connected){
+      var info='<div class="pi-item"><div class="pi-label">Model</div><div class="pi-value">'+(d.model||'?')+'</div></div>';
+      if(d.android)info+='<div class="pi-item"><div class="pi-label">Android</div><div class="pi-value">'+d.android+'</div></div>';
+      if(d.battery)info+='<div class="pi-item"><div class="pi-label">Battery</div><div class="pi-value">'+d.battery+'</div></div>';
+      if(d.ram)info+='<div class="pi-item"><div class="pi-label">RAM</div><div class="pi-value">'+d.ram+'</div></div>';
+      if(d.storage)info+='<div class="pi-item"><div class="pi-label">Storage</div><div class="pi-value">'+d.storage+'</div></div>';
+      if(d.uptime)info+='<div class="pi-item"><div class="pi-label">Uptime</div><div class="pi-value">'+d.uptime+'</div></div>';
+      $('phoneInfo').innerHTML=info;
+    }
+  }).catch(function(){});
+}
+async function phoneCmd(){
+  var cmd=$('pcmd').value.trim();if(!cmd)return;
+  $('pcmd').value='';
+  var term=$('pterm');
+  term.textContent+='\n$ '+cmd+'\n';
+  try{
+    var r=await fetch('/api/phone/command',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({command:cmd})});
+    var d=await r.json();
+    term.textContent+=(d.output||d.error||'No output')+'\n';
+  }catch(e){term.textContent+='Error: '+e.message+'\n';}
+  term.scrollTop=term.scrollHeight;
+}
+function phoneQuick(cmd){$('pcmd').value=cmd;phoneCmd();}
+
+// ===== FILES =====
+function pFiles(){
+  $('body').innerHTML='<div id="bc" style="font-size:10px;color:var(--accent);margin-bottom:6px"></div><div id="ep" style="display:none"><div class="card"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><span id="efn" style="font-size:11px;font-weight:600"></span><div><button class="btn btn-ok" onclick="fSave()">Save</button> <button class="btn btn-g" onclick="fClose()">Close</button></div></div><textarea id="fed" style="width:100%;min-height:200px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px;color:var(--text);font-family:monospace;font-size:11px;resize:vertical;outline:none"></textarea></div></div><div id="flist"></div>';
+  loadFiles();
+}
+async function loadFiles(dir){
+  try{var r=await fetch('/api/files?dir='+(dir?encodeURIComponent(dir):''));var d=await r.json();
+  var parts=d.dir.replace(/\\/g,'/').split('/').filter(Boolean);
+  var bh='',acc='';
+  parts.forEach(function(p,i){acc+='/'+p;bh+='<span style="cursor:pointer" onclick="loadFiles(\''+acc.replace(/'/g,"\\'")+'\')">'+p+'</span>';if(i<parts.length-1)bh+=' / ';});
+  $('bc').innerHTML=bh;
+  var fh='';d.files.forEach(function(f){
+    var ic=f.isDirectory?'📁':gi(f.name);
+    var ck=f.isDirectory?"loadFiles('"+f.path.replace(/\\/g,'/').replace(/'/g,"\\'")+"')":"openF('"+f.path.replace(/\\/g,'/').replace(/'/g,"\\'")+"')";
+    fh+='<div style="display:flex;align-items:center;gap:6px;padding:5px;border-radius:4px;cursor:pointer;font-size:11px" onclick="'+ck+'"><span>'+ic+'</span><span style="flex:1">'+f.name+'</span><span style="font-size:9px;color:var(--muted)">'+(f.isDirectory?'':fs(f.size))+'</span></div>';
+  });$('flist').innerHTML=fh||'<div style="color:var(--muted);font-size:10px;text-align:center;padding:16px">Empty</div>';
+  }catch(e){$('flist').innerHTML='<div style="color:var(--red)">Error</div>';}
+}
+function gi(n){var e=n.split('.').pop().toLowerCase();return{py:'🐍',js:'📜',json:'📋',md:'📝',html:'🌐',css:'🎨',ts:'📜',txt:'📄'}[e]||'📄';}
+function fs(b){if(b<1024)return b+'B';if(b<1048576)return(b/1024).toFixed(1)+'K';return(b/1048576).toFixed(1)+'M';}
+async function openF(p){CF=p;var r=await fetch('/api/files/read?path='+encodeURIComponent(p));var d=await r.json();$('ep').style.display='block';$('efn').textContent=p.split(/[/\\]/).pop();$('fed').value=d.content;}
+function fClose(){$('ep').style.display='none';}
+var CF='';
+async function fSave(){if(!CF)return;await fetch('/api/files/write',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({path:CF,content:$('fed').value})});toast('Saved!');}
+
+// ===== CODE EDITOR =====
+function pCode(){
+  $('body').innerHTML='<div style="display:flex;flex-direction:column;height:calc(100dvh - 88px)"><div style="display:flex;gap:4px;padding:5px 10px;background:var(--card);border-bottom:1px solid var(--border)"><button class="btn btn-p" onclick="newFile()">+ New</button><button class="btn btn-g" onclick="saveFile()">Save</button><span style="flex:1"></span><select id="cmod2" style="background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:2px 5px;color:var(--text);font-size:10px"><option value="auto">Auto</option></select></div><div style="flex:1;display:flex;overflow:hidden"><div style="width:180px;background:var(--card);border-right:1px solid var(--border);overflow-y:auto;flex-shrink:0;padding:6px" id="sidebar"></div><div style="flex:1;display:flex;flex-direction:column"><textarea style="flex:1;background:var(--bg);border:none;padding:10px;color:var(--text);font-family:\'Fira Code\',monospace;font-size:11px;resize:none;outline:none;line-height:1.5;tab-size:2" id="ceditor" placeholder="Write code or ask AI..."></textarea><div style="height:120px;background:var(--card);border-top:1px solid var(--border);overflow-y:auto;padding:6px;font-family:monospace;font-size:10px;color:var(--muted)" id="cout">AI Hub Code Editor</div></div></div></div>';
+  loadSidebar();
+}
+async function loadSidebar(){
+  try{var r=await fetch('/api/files');var d=await r.json();
+  var h='';d.files.forEach(function(f){h+='<div style="display:flex;align-items:center;gap:4px;padding:3px 5px;border-radius:3px;cursor:pointer;font-size:10px;color:'+(f.isDirectory?'var(--yellow)':'var(--text)')+'" onclick="'+(f.isDirectory?"loadDir('"+f.path.replace(/\\/g,'/').replace(/'/g,"\\'")+"')":"loadF('"+f.path.replace(/\\/g,'/').replace(/'/g,"\\'")+"')")+'">'+(f.isDirectory?'📁':'📄')+' '+f.name+'</div>';});$('sidebar').innerHTML=h;}catch(e){}
+}
+async function loadDir(dir){try{var r=await fetch('/api/files?dir='+encodeURIComponent(dir));var d=await r.json();var h='<div style="cursor:pointer;font-size:10px;color:var(--yellow);padding:3px 5px" onclick="loadSidebar()">📁 ..</div>';d.files.forEach(function(f){h+='<div style="display:flex;align-items:center;gap:4px;padding:3px 5px;border-radius:3px;cursor:pointer;font-size:10px;color:'+(f.isDirectory?'var(--yellow)':'var(--text)')+'" onclick="'+(f.isDirectory?"loadDir('"+f.path.replace(/\\/g,'/').replace(/'/g,"\\'")+"')":"loadF('"+f.path.replace(/\\/g,'/').replace(/'/g,"\\'")+"')")+'">'+(f.isDirectory?'📁':'📄')+' '+f.name+'</div>';});$('sidebar').innerHTML=h;}catch(e){}}
+async function loadF(path){try{var r=await fetch('/api/files/read?path='+encodeURIComponent(path));var d=await r.json();$('ceditor').value=d.content;$('ceditor').dataset.path=path;$('cout').textContent='Loaded: '+path;}catch(e){}}
+function newFile(){$('ceditor').value='';$('ceditor').dataset.path='';$('cout').textContent='New file';}
+async function saveFile(){var p=$('ceditor').dataset.path,c=$('ceditor').value;if(!p){var n=prompt('File name:');if(!n)return;p=n;}await fetch('/api/files/write',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({path:p,content:c})});toast('Saved!');$('ceditor').dataset.path=p;loadSidebar();}
+
+go('dash');
+</script>
+</body>
+</html>
